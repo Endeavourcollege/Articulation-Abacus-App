@@ -1,0 +1,23 @@
+<ion-view view-title="Create Account">
+  <ion-content ng-controller="createaccountCtrl">
+  
+  	<div ng-hide="authData" class="list">
+        <label class="item item-input">
+            <span class="input-label">Email</span>
+            <input type="text" ng-model="create.username">
+        </label>
+        <label class="item item-input">
+            <span class="input-label">Password</span>
+            <input type="password" ng-model="create.password">
+        </label>
+    </div>
+    
+    <div ng-hide="authData" class="padding">
+    	<button class="button button-block button-positive" ng-disabled="create.username == '' && create.password == ''" ng-click="createuser()">
+            Create Account
+        </button>
+    </div>
+  	
+  </ion-content>
+</ion-view>
+

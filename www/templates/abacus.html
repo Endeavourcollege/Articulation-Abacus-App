@@ -1,0 +1,101 @@
+<ion-view view-title="Articulation Abacus">
+  <ion-content ng-controller="abacusCtrl">
+  	<div ng-init="abacusLoader()" ng-show="loading"class="abacus-process">
+		<div class="loadingbox abacus-centered vertical-middle">
+			<span id="abacus_loading"></span><br /><span id="abacusLoadingText">Loading...</span>
+		</div>
+	</div>
+	<div class="abacus-pie">
+		<pie-chart data="pie.pie_guage_data" options="pie.pie_options"></pie-chart>
+	</div>
+  	<div class="list">	
+	  <label class="item item-input item-select">
+	    <div class="input-label">
+	      Training Provider
+	    </div>
+	    <select ng-model="abacus.provider" ng-options="v as v for (k, v) in abacus.providers">
+	    </select>
+	  </label>
+	  <label class="item item-input item-select" ng-show="abacus.provider">
+	    <div class="input-label">
+	      Qualification Studied
+	    </div>	    
+	    <select ng-model="abacus.course" ng-options="v as v for (k, v) in abacus.courses[abacus.provider]">
+	    </select>
+	  </label>
+	  <li class="item item-checkbox" ng-show="abacus.course">
+	     <label class="checkbox">
+	       <input ng-model="abacus.courseComplete" ng-change='abacusCourseSubjects()' type="checkbox" checked>
+	     </label>
+	     I have completed this qualification
+	  </li>
+	  <button class="button button-full" ng-hide="abacus.courseComplete" ng-click="openPopover($event)">Select Subjects</button>
+	  <!--<li class="item item-checkbox" ng-hide="abacus.courseComplete" ng-repeat="item in abacus.subjects">
+	     <label class="checkbox">
+	       <input type="checkbox" value="{{item}}" ng-checked="selection.indexOf(item) > -1" ng-click="toggleSelection(item)">
+	     </label>
+	     {{item}}
+	  </li>-->
+	  <label class="item item-input item-select">
+	    <div class="input-label">
+	      ECNH Qualification
+	    </div>	    
+	    <select ng-model="abacus.ecnhcourse" ng-options="k as v for (k, v) in abacus.ecnhcourses">
+	    </select>
+	  </label>
+	  <button class="button button-full button-positive" ng-disabled="abacus.ecnhcourse == '' && abacus.provider == ''" ng-click="abacusCalc()">
+		  Calculate
+	  </button>
+	</div>
+	<div ng-show="abacus.results" class="list">
+		
+	  <div class="item item-divider">
+	    Credited Subjects
+	  </div>
+	  
+	  <div class="item" ng-repeat="item in abacus.results.courseCP" ng-class="{'item-energized' : item.SubjectType != 'Core'}">
+	    {{item.SubjectCode}} - {{item.SubjectName}}
+	  </div>
+	  
+	</div>
+	  
+	<div ng-show="abacus.results" class="list">
+		
+	  <div class="item item-divider">
+	    Remaining Subjects
+	  </div>
+	  
+	  <div class="item" ng-repeat="item in abacus.results.courseNP" ng-class="{'item-energized' : item.SubjectType != 'Core'}">
+	    {{item.SubjectCode}} - {{item.SubjectName}}
+	  </div>
+	  
+	</div>
+  </ion-content>
+</ion-view>
+
+<script id="my-popover.html" type="text/ng-template">
+  <ion-popover-view>
+    <ion-header-bar>
+      <h1 class="title">Select Subjects</h1>
+    </ion-header-bar>
+    <ion-content>
+	  <div class="bar bar-header item-input-inset">
+		  <label class="item-input-wrapper">
+		    <i class="icon ion-ios-search placeholder-icon"></i>
+		    <input type="search" placeholder="Search">
+		  </label>
+		  <button class="button button-clear">
+		    Cancel
+		  </button>
+	  </div>
+      <div class="list">
+      	<li class="item item-checkbox" ng-hide="abacus.courseComplete" ng-repeat="item in abacus.subjects">
+		   <label class="checkbox">
+		     <input type="checkbox" value="{{item}}" ng-checked="selection.indexOf(item) > -1" ng-click="toggleSelection(item)">
+		   </label>
+		   {{item}}
+		</li>
+      </div>
+    </ion-content>
+  </ion-popover-view>
+</script>

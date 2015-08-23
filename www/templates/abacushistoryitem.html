@@ -1,0 +1,33 @@
+<ion-view view-title="Abacus History Item">
+  <ion-content ng-controller="abacusHistoryItemCtrl">
+  	<div class="row">
+  		<div class="col">
+	  		<h2>{{abacushistory.item.endeavour_course}}</h2>
+	  		<h3>{{abacushistory.item.trainer_course}}</h3>
+  		</div>
+  	</div>
+	<div class="list">
+
+	  <div class="item item-divider">
+	    Credited Subjects
+	  </div>
+	  
+	  <div class="item" ng-repeat="item in abacushistory.item.course_credits" ng-class="{'item-energized' : item.SubjectType != 'Core'}">
+	    {{item.SubjectCode}} - {{item.SubjectName}}
+	  </div>
+	  
+	</div>
+	  
+	<div class="list">
+		
+	  <div class="item item-divider">
+	    Remaining Subjects
+	  </div>
+	  
+	  <div class="item" ng-repeat="item in abacushistory.item.course_required" ng-class="{'item-energized' : item.SubjectType != 'Core'}">
+	    {{item.SubjectCode}} - {{item.SubjectName}}
+	  </div>
+	  
+	</div>
+  </ion-content>
+</ion-view>

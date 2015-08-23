@@ -1,0 +1,42 @@
+<ion-view view-title="Login">
+  <ion-content ng-controller="loginCtrl">
+  
+  	<div ng-hide="authData" class="list">
+        <label class="item item-input">
+            <span class="input-label">Username</span>
+            <input type="text" ng-model="user.username">
+        </label>
+        <label class="item item-input">
+            <span class="input-label">Password</span>
+            <input type="password" ng-model="user.password">
+        </label>
+    </div>
+    <div ng-hide="authData" class="padding">
+    	<button class="button button-block button-positive" ng-disabled="user.username == '' && user.password == ''" ng-click="fireloginuser()">
+            Sign-In
+        </button>
+        <p class="text-center">
+            <a href="#/app/createaccount">Create Account</a>
+        </p>
+    </div>
+  	
+    <div ng-hide="authData" class="card" ng-click="fireloginfacebook()">
+	  <button class="item">
+	  Or Log In with Facebook
+	  </button>
+	</div>
+	
+	<div class="card" ng-show="authData">
+	  <div class="item item-text-wrap">
+	    Hello {{displayName}}!
+	  </div>
+	</div>
+	
+	<div ng-show="authData" class="card" ng-click="firelogout()">
+	  <button class="item">
+	  Log Out
+	  </button>
+	</div>
+  </ion-content>
+</ion-view>
+

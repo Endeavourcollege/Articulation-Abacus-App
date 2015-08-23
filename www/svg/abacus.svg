@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   height="100%"
+   width="100%"
+   viewBox="0 0 200 200"
+   id="abacus_svg"
+   version="1.1">
+  <path
+     id="abacus"
+     d="m 37.507839,40.00882 c -4.154999,0 -7.5,3.345001 -7.5,7.5 l 0,112.5 15,0 0,-112.5 c 0,-4.154999 -3.345,-7.5 -7.5,-7.5 z m 125.027341,0 c -4.155,0 -7.5,3.345001 -7.5,7.5 l 0,112.5 15,0 0,-112.5 c 0,-4.154999 -3.345,-7.5 -7.5,-7.5 z m -112.505857,19.90625 0,10 99.999997,0 0,-10 -99.999997,0 z m -0.03711,34.980469 0,10.000001 99.999997,0 0,-10.000001 -99.999997,0 z m -0.105469,34.958981 0,10 99.999996,0 0,-10 -99.999996,0 z"
+     style="fill:#ffffff;fill-opacity:1" />
+  <rect
+     ry="5"
+     y="49.947033"
+     x="49.93248"
+     height="30"
+     width="10.264831"
+     id="ball11"
+     style="fill:#ffffff;fill-opacity:1" />
+  <rect
+     style="fill:#ffffff;fill-opacity:1"
+     id="ball12"
+     width="10.264831"
+     height="30"
+     x="59.890106"
+     y="49.947033"
+     ry="5" />
+  <rect
+     ry="5"
+     y="49.947033"
+     x="69.953659"
+     height="30"
+     width="10.264831"
+     id="ball13"
+     style="fill:#ffffff;fill-opacity:1" />
+  <rect
+     style="fill:#ffffff;fill-opacity:1"
+     id="ball21"
+     width="10.264831"
+     height="30"
+     x="49.895027"
+     y="84.928162"
+     ry="5" />
+  <rect
+     ry="5"
+     y="84.928162"
+     x="59.852654"
+     height="30"
+     width="10.264831"
+     id="ball22"
+     style="fill:#ffffff;fill-opacity:1" />
+  <rect
+     style="fill:#ffffff;fill-opacity:1"
+     id="ball23"
+     width="10.264831"
+     height="30"
+     x="69.916206"
+     y="84.928162"
+     ry="5" />
+  <rect
+     ry="5"
+     y="119.8858"
+     x="49.789097"
+     height="30"
+     width="10.264831"
+     id="ball31"
+     style="fill:#ffffff;fill-opacity:1" />
+  <rect
+     style="fill:#ffffff;fill-opacity:1"
+     id="ball32"
+     width="10.264831"
+     height="30"
+     x="59.746723"
+     y="119.8858"
+     ry="5" />
+  <rect
+     ry="5"
+     y="119.8858"
+     x="69.810272"
+     height="30"
+     width="10.264831"
+     id="ball33"
+     style="fill:#ffffff;fill-opacity:1" />
+</svg>
