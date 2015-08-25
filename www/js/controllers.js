@@ -5,7 +5,7 @@ angular.module('starter.controllers', [])
   return $firebaseAuth(usersRef);
 })
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout, Auth) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, $location, Auth) {
   console.log('AppCtrl');
   
   //on successfull auth add user 
@@ -14,6 +14,7 @@ angular.module('starter.controllers', [])
 	  $scope.authData = authData;
 	  
 	  if (authData === null) {
+		$location.path('/mainlogin');
 	    console.log("Not logged in yet");
 	  } else {
 	  	setAuthData(authData);
@@ -80,9 +81,40 @@ angular.module('starter.controllers', [])
   
 })
 
-.controller("loginCtrl", function($scope, $ionicLoading, $rootScope, $firebase, Auth) {
+.controller("loginCtrl", function($scope, $location, $ionicModal, $ionicLoading, $rootScope, $firebase, Auth) {
   console.log('loginCtrl');
-  var isNewUser = true; //if new user add details
+  Auth.$onAuth(function(authData) {
+	  if (authData === null) {
+	    console.log("Need to login!");
+	  } else {
+		$location.path('/app/abacus');
+	  }
+  });
+  // Login Modal
+  $ionicModal.fromTemplateUrl('my-modal.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+  $scope.openModal = function() {
+    $scope.modal.show();
+  };
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+  };
+  //Cleanup the modal when we're done with it!
+  $scope.$on('$destroy', function() {
+    $scope.modal.remove();
+  });
+  // Execute action on hide modal
+  $scope.$on('modal.hidden', function() {
+    // Execute action
+  });
+  // Execute action on remove modal
+  $scope.$on('modal.removed', function() {
+    // Execute action
+  });
   
   console.log(Auth);
   //facebook login
@@ -165,6 +197,26 @@ angular.module('starter.controllers', [])
 	  });
 	
   };
+  
+})
+
+.controller("demoCtrl", function($scope, $state, $ionicSlideBoxDelegate) {
+  console.log('Demo Reel!');
+})
+
+.controller("abacusAccount", function($scope, $rootScope, $firebase, $location, $firebaseObject, Auth) {
+	Auth.$onAuth(function(authData) {
+	  console.log('Account Auth!');
+	  if (authData === null) {
+	    console.log("Not logged in yet");
+	  }
+	  $scope.authData = authData;
+	  
+	  var ref = new Firebase("https//popping-heat-7126.firebaseio.com/abacus-users/" + authData.uid);
+	  var profile = $firebaseObject(ref);
+	  
+	  profile.$bindTo($scope, "profile");
+	});
   
 })
 
@@ -286,6 +338,7 @@ angular.module('starter.controllers', [])
   $scope.abacus.subjects = {};
   $scope.abacus.ecnhcourses = {};
   $scope.pie = {};
+  $scope.abacus.courseComplete = true; 
   
   //style the pie graph
   $scope.pie.pie_percentage = 0;
@@ -312,7 +365,7 @@ angular.module('starter.controllers', [])
 	    // or server returns response with an error status.
 	    console.log('There was an error:' + JSON.stringify(config));
 	    console.log('status:' + status);
-	    $ionicLoading.hide();
+	    $scope.loading = false;
 	    
 	  });
   
@@ -327,7 +380,7 @@ angular.module('starter.controllers', [])
 	    // called asynchronously if an error occurs
 	    // or server returns response with an error status.
 	    console.log(data);
-	    $ionicLoading.hide();
+	    $scope.loading = false;
 	  });  
   
   //when all data gathered hide loader
@@ -344,9 +397,7 @@ angular.module('starter.controllers', [])
 		  return;	
 	  	}
 	  	
-		$ionicLoading.show({
-		  template: '<span id="abacus_loading"></span>Getting Subjects...'
-		});
+	  	$scope.loading = true;
 	  
 		console.log('Getting Courses');
 		console.log('Provider: ' + $scope.abacus.provider);
@@ -361,14 +412,14 @@ angular.module('starter.controllers', [])
 			success(function(data, status, headers, config) {
 			  $scope.abacus.subjects = data.subjects;
 			  console.log(data);
-			  $ionicLoading.hide();
+			  $scope.loading = false;
 			}).
 			error(function(data, status, headers, config) {
 			  // called asynchronously if an error occurs
 			  // or server returns response with an error status.
 			  alert('There was an error:' + error);
 			  alert('status:' + status);
-			  $ionicLoading.hide();
+			  $scope.loading = false;
 			});
   };
   
@@ -389,45 +440,11 @@ angular.module('starter.controllers', [])
      }
    };
   
-  // .fromTemplate() method
-  /*var template = '<ion-popover-view><ion-header-bar> <h1 class="title">My Popover Title</h1> </ion-header-bar> <ion-content></ion-content></ion-popover-view>';
-
-  $scope.popover = $ionicPopover.fromTemplate(template, {
-    scope: $scope
-  });*/
-
-  // .fromTemplateUrl() method
-  $ionicPopover.fromTemplateUrl('my-popover.html', {
-    scope: $scope
-  }).then(function(popover) {
-    $scope.popover = popover;
-  });
-
-
-  $scope.openPopover = function($event) {
-    $scope.popover.show($event);
-  };
-  $scope.closePopover = function() {
-    $scope.popover.hide();
-  };
-  //Cleanup the popover when we're done with it!
-  $scope.$on('$destroy', function() {
-    $scope.popover.remove();
-  });
-  // Execute action on hide popover
-  $scope.$on('popover.hidden', function() {
-    // Execute action
-  });
-  // Execute action on remove popover
-  $scope.$on('popover.removed', function() {
-    // Execute action
-  });
-  
   //send information to be calculated
   $scope.abacusCalc = function() {
 	  
 		$ionicLoading.show({
-		  template: '<span id="abacus_loading"></span>Calculating...'
+		  template: 'Calculating...'
 		});
 	  
 		console.log('Calculating');
@@ -501,10 +518,10 @@ angular.module('starter.controllers', [])
 	    $scope.abacushistory.submits = $firebaseArray(ref);
 	    
 	    // create a query for the most recent 25 messages on the server
-	    var query = ref.orderByChild("timestamp").limitToLast(25);
+	    //var query = ref.orderByChild("timestamp").limitToLast(25);
 	    
 	    // the $firebaseArray service properly handles database queries as well
-	    $scope.filteredMessages = $firebaseArray(query);
+	    //$scope.filteredMessages = $firebaseArray(query);
 	    
 	  // Attach an asynchronous callback to read the data at our posts reference
 	  /*ref.on("value", function(snapshot) {
@@ -527,19 +544,21 @@ angular.module('starter.controllers', [])
 	console.log(history);*/
 })
 
-.controller('abacusHistoryItemCtrl', function($scope, $stateParams, Auth) {
+.controller('abacusHistoryItemCtrl', function($scope, $location, $stateParams, $ionicPopup, $firebaseObject, Auth) {
 	var currentId = $stateParams.abacusId;
 
 	$scope.shouldShowDelete = true;
 	$scope.shouldShowReorder = true;
 	$scope.listCanSwipe = false;
 	$scope.abacushistory = {};
+	$scope.authData = {};
+	var ref = {};
 	
 	Auth.$onAuth(function(authData) {
 	  console.log('History Auth!');
 	  $scope.authData = authData;
 	  
-	  var ref = new Firebase("https//popping-heat-7126.firebaseio.com/abacus-users/" + authData.uid + "/abacus/" + currentId);
+	  ref = new Firebase("https//popping-heat-7126.firebaseio.com/abacus-users/" + authData.uid + "/abacus/" + currentId);
 	
 	  // Attach an asynchronous callback to read the data at our posts reference
 	  ref.on("value", function(snapshot) {
@@ -555,7 +574,32 @@ angular.module('starter.controllers', [])
 	    console.log("Not logged in yet");
 	  } 
 	});
+	
+	$scope.removeAbacusItem = function() { 
 
+		var confirmPopup = $ionicPopup.confirm({
+		    title: 'Remove Abacus Item',
+		    template: 'Are you sure you want to remove this?'
+		});
+		 
+		confirmPopup.then(function(res) {
+		    if(res) {
+			   var historyItemDisplay = $firebaseObject(ref.child('display'));			   
+			   historyItemDisplay.$value = 0;
+			   historyItemDisplay.$save();
+			   $location.path('/app/abacushistory');
+		    } else {
+		       console.log('You are not sure');
+		    }
+		});
+
+	};
+	
+	$scope.enquireAbacusItem = function() { 
+		//show form of all user data allowing them to make changes
+		//submit to leads api
+	};
+	
 })
 
 .controller('svg', function($scope, $stateParams) {

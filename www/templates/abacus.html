@@ -25,17 +25,19 @@
 	  </label>
 	  <li class="item item-checkbox" ng-show="abacus.course">
 	     <label class="checkbox">
-	       <input ng-model="abacus.courseComplete" ng-change='abacusCourseSubjects()' type="checkbox" checked>
+	       <input ng-model="abacus.courseComplete" ng-change='abacusCourseSubjects()' type="checkbox">
 	     </label>
 	     I have completed this qualification
 	  </li>
-	  <button class="button button-full" ng-hide="abacus.courseComplete" ng-click="openPopover($event)">Select Subjects</button>
-	  <!--<li class="item item-checkbox" ng-hide="abacus.courseComplete" ng-repeat="item in abacus.subjects">
+	  <div class="item item-divider" ng-hide="abacus.courseComplete">
+	    Select Completed Subjects
+	  </div>
+	  <li class="item item-checkbox" ng-hide="abacus.courseComplete" ng-repeat="item in abacus.subjects">
 	     <label class="checkbox">
 	       <input type="checkbox" value="{{item}}" ng-checked="selection.indexOf(item) > -1" ng-click="toggleSelection(item)">
 	     </label>
 	     {{item}}
-	  </li>-->
+	  </li>
 	  <label class="item item-input item-select">
 	    <div class="input-label">
 	      ECNH Qualification
@@ -72,30 +74,3 @@
 	</div>
   </ion-content>
 </ion-view>
-
-<script id="my-popover.html" type="text/ng-template">
-  <ion-popover-view>
-    <ion-header-bar>
-      <h1 class="title">Select Subjects</h1>
-    </ion-header-bar>
-    <ion-content>
-	  <div class="bar bar-header item-input-inset">
-		  <label class="item-input-wrapper">
-		    <i class="icon ion-ios-search placeholder-icon"></i>
-		    <input type="search" placeholder="Search">
-		  </label>
-		  <button class="button button-clear">
-		    Cancel
-		  </button>
-	  </div>
-      <div class="list">
-      	<li class="item item-checkbox" ng-hide="abacus.courseComplete" ng-repeat="item in abacus.subjects">
-		   <label class="checkbox">
-		     <input type="checkbox" value="{{item}}" ng-checked="selection.indexOf(item) > -1" ng-click="toggleSelection(item)">
-		   </label>
-		   {{item}}
-		</li>
-      </div>
-    </ion-content>
-  </ion-popover-view>
-</script>

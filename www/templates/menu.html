@@ -10,11 +10,27 @@
       </ion-nav-buttons>
     </ion-nav-bar>
     <ion-nav-view name="menuContent"></ion-nav-view>
+    <ion-footer ng-show="false">
+  	<div class="tabs tabs-icon-top">
+	  <a class="tab-item" href="#/app/abacus">
+	    <i class="icon ion-ios-calculator"></i>
+	    Abacus
+	  </a>
+	  <a class="tab-item" href="#/app/abacushistory">
+	    <i class="icon ion-ios-list"></i>
+	    History
+	  </a>
+	  <a class="tab-item" href="#/app/account">
+	    <i class="icon ion-ios-person"></i>
+	    Account
+	  </a>
+	</div>
+  </ion-footer>
   </ion-side-menu-content>
 
   <ion-side-menu side="left">
     <ion-header-bar class="bar-stable">
-      <h1 class="title">Left</h1>
+      <h1 class="title">Menu</h1>
     </ion-header-bar>
     <ion-content>
       <ion-list>
@@ -26,6 +42,12 @@
         </ion-item>
         <ion-item menu-close href="#/app/abacushistory">
           Abacus History
+        </ion-item>
+        <ion-item menu-close href="#/app/demo">
+          Abacus Demo
+        </ion-item>
+        <ion-item menu-close href="#/app/account">
+          Account
         </ion-item>
         <ion-item menu-close href="#/app/svg">
           Loader Animation

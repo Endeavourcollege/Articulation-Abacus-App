@@ -56,6 +56,24 @@ angular.module('starter', ['ionic', 'firebase', 'n3-pie-chart', 'starter.control
     }
   })
   
+  .state('app.demo', {
+    url: '/demo',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/abacusdemo.html'
+      }
+    }
+  })
+  
+  .state('app.account', {
+    url: '/account',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/account.html'
+      }
+    }
+  })
+  
   .state('app.abacushistory', {
     url: '/abacushistory',
     views: {
@@ -93,5 +111,5 @@ angular.module('starter', ['ionic', 'firebase', 'n3-pie-chart', 'starter.control
   });
   
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/login');
+  $urlRouterProvider.otherwise('/mainlogin');
 });

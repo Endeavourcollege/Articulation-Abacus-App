@@ -1,7 +1,40 @@
 <ion-view view-title="Login">
   <ion-content ng-controller="loginCtrl">
-  
-  	<div ng-hide="authData" class="list">
+  	
+  	<div ng-hide="authData" class="card" ng-click="openModal()">
+	  <button class="item">
+	  Log In with Email	  
+	  </button>
+	</div>
+  	
+    <div ng-hide="authData" class="card" ng-click="fireloginfacebook()">
+	  <button class="item">
+	  Log In with Facebook
+	  </button>
+	</div>
+	
+	<div class="card" ng-show="authData">
+	  <div class="item item-text-wrap">
+	    Hello {{displayName}}!
+	  </div>
+	</div>
+	
+	<div ng-show="authData" class="card" ng-click="firelogout()">
+	  <button class="item">
+	  Log Out
+	  </button>
+	</div>
+	
+  </ion-content>
+</ion-view>
+
+<script id="my-modal.html" type="text/ng-template">
+  <ion-modal-view>
+    <ion-header-bar>
+      <h1 class="title">Log In with Email</h1>
+    </ion-header-bar>
+    <ion-content>
+      <div ng-hide="authData" class="list">
         <label class="item item-input">
             <span class="input-label">Username</span>
             <input type="text" ng-model="user.username">
@@ -19,24 +52,6 @@
             <a href="#/app/createaccount">Create Account</a>
         </p>
     </div>
-  	
-    <div ng-hide="authData" class="card" ng-click="fireloginfacebook()">
-	  <button class="item">
-	  Or Log In with Facebook
-	  </button>
-	</div>
-	
-	<div class="card" ng-show="authData">
-	  <div class="item item-text-wrap">
-	    Hello {{displayName}}!
-	  </div>
-	</div>
-	
-	<div ng-show="authData" class="card" ng-click="firelogout()">
-	  <button class="item">
-	  Log Out
-	  </button>
-	</div>
-  </ion-content>
-</ion-view>
-
+    </ion-content>
+  </ion-modal-view>
+</script>

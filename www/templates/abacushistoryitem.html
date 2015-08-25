@@ -1,5 +1,5 @@
-<ion-view view-title="Abacus History Item">
-  <ion-content ng-controller="abacusHistoryItemCtrl">
+<ion-view view-title="Abacus History Item" ng-controller="abacusHistoryItemCtrl">
+  <ion-content>
   	<div class="row">
   		<div class="col">
 	  		<h2>{{abacushistory.item.endeavour_course}}</h2>
@@ -27,7 +27,18 @@
 	  <div class="item" ng-repeat="item in abacushistory.item.course_required" ng-class="{'item-energized' : item.SubjectType != 'Core'}">
 	    {{item.SubjectCode}} - {{item.SubjectName}}
 	  </div>
-	  
 	</div>
   </ion-content>
+  <ion-footer>
+  	<div class="tabs tabs-icon-top">
+	  <a class="tab-item" ng-click="removeAbacusItem()">
+	    <i class="icon ion-ios-trash"></i>
+	    Remove
+	  </a>
+	  <a class="tab-item" ng-click="enquireAbacus()">
+	    <i class="icon ion-email"></i>
+	    Enquire
+	  </a>
+	</div>
+  </ion-footer>
 </ion-view>
