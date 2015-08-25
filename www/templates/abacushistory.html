@@ -1,7 +1,7 @@
 <ion-view view-title="Abacus History">
   <ion-content ng-controller="abacusHistoryCtrl">
 	<div class="list">
-		<a class="item item-thumbnail-left" ng-repeat="(id, item) in abacushistory.submits" href="#/app/abacushistory/{{item.$id}}" ng-show="item.display == 1">
+		<a class="item item-thumbnail-left" ng-repeat="(id, item) in abacushistory.submits | reverse" href="#/app/abacushistory/{{item.$id}}" ng-show="item.display == 1">
 			<div class="pie-cont-left">
 				<pie-chart data="[{label: 'Credit', value: item.percentage, suffix: '%', color: 'steelblue'}]" options="{thickness: 5, mode: 'gauge', total: 100}"></pie-chart>
 			</div>
