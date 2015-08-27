@@ -75,7 +75,7 @@ angular.module('starter.controllers', [])
 		    }
 		});
 		
-	    $scope.displayName = getName(authData); // This will display the user's name in our view
+	    $scope.displayName = getName(authData); // Get user's name
 	  }
   }
   
@@ -110,6 +110,7 @@ angular.module('starter.controllers', [])
 		$location.path('/app/abacus');
 	  }
   });
+  
   // Login Modal
   $ionicModal.fromTemplateUrl('my-modal.html', {
     scope: $scope,
@@ -168,54 +169,95 @@ angular.module('starter.controllers', [])
     });
   };
   
-  //user login
+  //email user login
+  $scope.user = {};
+  $scope.user.create = false;
+  $scope.user.forgot = false;
+  
   $scope.fireloginuser = function() {
   	console.log('Email Login');
     Auth.$authWithPassword({
 	  email    : $scope.user.username,
 	  password : $scope.user.password
-	}, function(error, authData) {
-		console.log('Spicey Life!');
-	  if (error) {
-	    console.log("Login Failed!", error);
-	  } else {
-	    console.log("Authenticated successfully with payload:", authData);
-	  }
+	}).then(function(authData) {
+	  console.log("Logged in as:", authData.uid);
+	  $scope.modal.hide();
+	}).catch(function(error) {
+	  console.error("Authentication failed:", error);
+	  alert('Username or Password is incorrect');
 	});
+  };
+  
+  $scope.createuserBtn = function() {
+  	console.log('create user');
+  	$scope.user.create = true;
+  }
+  
+  $scope.forgotuserBtn = function() {
+  	console.log('forgot user');
+  	$scope.user.forgot = true;
+  }
+  
+  $scope.canceluserBtn = function() {
+  	console.log('cancel user');
+  	$scope.user.create = false;
+  	$scope.user.forgot = false;
+  }
+  
+  //user create
+  $scope.firecreateuser = function() {
+	   	console.log('Email Create');
+	 Auth.$createUser({
+		  email: $scope.user.username,
+		  password : $scope.user.password
+	  }).then(function(authData) {
+		  console.log("User " + authData.uid + " created successfully!");
+		  
+		  var users = new Firebase("https//popping-heat-7126.firebaseio.com/abacus-users/" + authData.uid);
+		
+		  var usersRef = new Firebase("https//popping-heat-7126.firebaseio.com/abacus-users/");
+		  usersRef.child(authData.uid).once('value', function(snapshot) {
+		    if(snapshot.val() == null){
+			 	users.set({
+			      provider: 'password',
+			      firstname: $scope.user.firstname,
+			      lastname: $scope.user.lastname,
+			      country: $scope.user.country,
+			      email: $scope.user.username,
+			      phone: $scope.user.phone,
+			      country: $scope.user.country,
+			      state: $scope.user.state,
+			      postcode: $scope.user.postcode
+			    });   
+		    }
+		  });
+		  
+		  return Auth.$authWithPassword({
+		    email: $scope.user.username,
+			password : $scope.user.password
+		  });
+		  
+	  }).then(function(authData) {
+		  console.log("Logged in as:", authData.uid);
+		  $scope.modal.hide();
+	  }).catch(function(error) {
+		  console.error("Error: ", error);
+		  alert('Error Creating Account!');
+	  });
 	
   };
   
-})
-
-.controller("createaccountCtrl", function($scope, $rootScope, $firebase, $location, Auth) {
-
-  //user create
-  $scope.createuser = function() {
-  	
-  	var ref = new Firebase("https://popping-heat-7126.firebaseio.com");
-	  ref.createUser({
-		  email    : $scope.create.username,
-		  password : $scope.create.password
-	  }, function(error, userData) {
-		  if (error) {
-			alert(error);
-		  } else {
-		    console.log("Successfully created user account with uid:", userData.uid);
-		    alert("Account Created Successfully");
-		    Auth.$authWithPassword({
-			  email    : $scope.create.username,
-			  password : $scope.create.password
-			}, function(error, authData) {
-				console.log('Spicey Life!');
-			  if (error) {
-			    console.log("Login Failed!", error);
-			  } else {
-			    console.log("Authenticated successfully with payload:", authData);
-			  }
-			});
-		  }
-	  });
-	
+  //user forgot email
+  $scope.fireforgotuser = function() {
+  	console.log('Email Password');
+	Auth.$resetPassword({
+	  email: $scope.user.username
+	}).then(function() {
+	  alert("Password reset email sent successfully!");
+	}).catch(function(error) {
+	  console.error("Error: ", error);
+	  alert("Error: ", error);
+	});
   };
   
 })
@@ -224,7 +266,7 @@ angular.module('starter.controllers', [])
   console.log('Demo Reel!');
 })
 
-.controller("abacusAccount", function($scope, $rootScope, $firebase, $location, $firebaseObject, Auth) {
+.controller("abacusAccount", function($scope, $ionicModal, $rootScope, $firebase, $location, $firebaseObject, Auth) {
 	Auth.$onAuth(function(authData) {
 	  console.log('Account Auth!');
 	  if (authData === null) {
@@ -237,6 +279,52 @@ angular.module('starter.controllers', [])
 	  
 	  profile.$bindTo($scope, "profile");
 	});
+	
+	// Login Modal
+	  $ionicModal.fromTemplateUrl('my-modal.html', {
+	    scope: $scope,
+	    animation: 'slide-in-up'
+	  }).then(function(modal) {
+	    $scope.modal = modal;
+	  });
+	  $scope.openModal = function() {
+	    $scope.modal.show();
+	  };
+	  $scope.closeModal = function() {
+	    $scope.modal.hide();
+	  };
+	  //Cleanup the modal when we're done with it!
+	  $scope.$on('$destroy', function() {
+	    $scope.modal.remove();
+	  });
+	  // Execute action on hide modal
+	  $scope.$on('modal.hidden', function() {
+	    // Execute action
+	  });
+	  // Execute action on remove modal
+	  $scope.$on('modal.removed', function() {
+	    // Execute action
+	  });
+	  
+	  //user change password
+	  $scope.account = {};
+	  $scope.firechangepass = function() {
+	  	console.log('Change Password');
+	  	if($scope.account.oldpassword == '' || $scope.account.newpassword == '') {
+		  	alert('Please Enter Passwords');
+	  	}
+		Auth.$changePassword({
+		  email: $scope.profile.email,
+		  oldPassword: $scope.account.oldpassword,
+		  newPassword: $scope.account.newpassword
+		}).then(function() {
+		  alert("Password reset successfully!");
+		  $scope.modal.hide();
+		}).catch(function(error) {
+		  console.error("Error: ", error);
+		  alert(error);
+		});
+	  };
   
 })
 
@@ -359,6 +447,7 @@ angular.module('starter.controllers', [])
   $scope.abacus.ecnhcourses = {};
   $scope.pie = {};
   $scope.abacus.courseComplete = true; 
+  $scope.abacus.notCombined = true;
   
   //style the pie graph
   $scope.pie.pie_percentage = 0;
@@ -410,6 +499,19 @@ angular.module('starter.controllers', [])
 		$scope.loading = false;
   });
   
+  //check if there is a combined qual in dropdown if true automatically show subjects
+  $scope.checkQuals = function() {
+	  cleanSubjects();
+	  
+	  if($scope.abacus.courses[$scope.abacus.provider][0] == 'Combined Qualifications') {
+		  console.log('Combined!');
+		  $scope.abacus.course = 'Combined Qualifications';
+		  $scope.abacus.courseComplete = false;
+		  $scope.abacus.notCombined = false;
+		  $scope.abacusCourseSubjects();
+	  }
+  };
+  
   //if course is not completed get all subjects
   $scope.abacusCourseSubjects = function() {
 	  	
@@ -417,6 +519,7 @@ angular.module('starter.controllers', [])
 		  return;	
 	  	}
 	  	
+	  	$scope.abacus.subjects = {};
 	  	$scope.loading = true;
 	  
 		console.log('Getting Courses');
@@ -459,6 +562,13 @@ angular.module('starter.controllers', [])
        $scope.abacus.subjectsComplete.push(subject);
      }
    };
+  
+  //remove all subjects from subjects selection
+  function cleanSubjects() {
+	  $scope.abacus.notCombined = true;
+	  $scope.abacus.subjects = {};
+	  $scope.abacus.courseComplete = true;
+  };
   
   //send information to be calculated
   $scope.abacusCalc = function() {
@@ -754,7 +864,7 @@ angular.module('starter.controllers', [])
 				
 				case 4:
 				  balls[0+rowCheck].animate({transform:'T0,0'}, timer, mina.easeout);
-			    balls[1+rowCheck].animate({transform:'T0,0'}, timer, mina.easeout);
+			      balls[1+rowCheck].animate({transform:'T0,0'}, timer, mina.easeout);
 				  balls[2+rowCheck].animate({transform:'T0,0'}, timer, mina.easeout);
 				  break;
 	

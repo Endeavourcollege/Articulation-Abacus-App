@@ -31,6 +31,12 @@ angular.module('starter', ['ionic', 'firebase', 'n3-pie-chart', 'starter.control
     controller: 'AppCtrl'
   })
   
+  .state('demo', {
+    url: '/demo',
+    templateUrl: 'templates/abacusdemo.html',
+    controller: 'demoCtrl'
+  })
+  
   .state('app', {
     url: '/app',
     abstract: true,

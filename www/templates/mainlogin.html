@@ -17,6 +17,8 @@
 		  </button>
 		</div>
 		
+		<a href="#/demo">What is the Abacus?</a>
+		
 		<div class="card" ng-show="authData">
 		  <div class="item item-text-wrap">
 		    Hello {{displayName}}!
@@ -37,24 +39,61 @@
   <ion-modal-view>
     <ion-header-bar>
       <h1 class="title">Log In with Email</h1>
+      <div class="button button-clear" ng-click="modal.hide()"><span class="icon ion-close"></span></div>
     </ion-header-bar>
     <ion-content>
-      <div ng-hide="authData" class="list">
-        <label class="item item-input">
-            <span class="input-label">Username</span>
-            <input type="text" ng-model="user.username">
-        </label>
-        <label class="item item-input">
+      <p ng-show="user.create || user.forgot" class="text-center">
+            <a ng-click="canceluserBtn()">Cancel</a>
+      </p>
+      <div class="list">
+          <label class="item item-input">
+            <span class="input-label">Email</span>
+            <input type="text" placeholder="Email" ng-model="user.username">
+          </label>
+          <label ng-hide="user.forgot" class="item item-input">
             <span class="input-label">Password</span>
-            <input type="password" ng-model="user.password">
-        </label>
-    </div>
-    <div ng-hide="authData" class="padding">
-    	<button class="button button-block button-positive" ng-disabled="user.username == '' && user.password == ''" ng-click="fireloginuser()">
+            <input type="password" placeholder="Password" ng-model="user.password">
+          </label>
+          <label ng-show="user.create" class="item item-input item-stacked-label">
+		    <span class="input-label">First Name</span>
+		    <input type="text" placeholder="First Name" ng-model="user.firstname">
+		  </label>
+		  <label ng-show="user.create" class="item item-input item-stacked-label">
+		    <span class="input-label">Last Name</span>
+		    <input type="text" placeholder="Last Name" ng-model="user.lastname">
+		  </label>
+		  <label ng-show="user.create" class="item item-input item-stacked-label">
+		    <span class="input-label">Phone</span>
+		    <input type="text" placeholder="Phone" ng-model="user.phone">
+		  </label>
+		  <label ng-show="user.create" class="item item-input item-stacked-label">
+		    <span class="input-label">Country</span>
+		    <input type="text" placeholder="Country" ng-model="user.country">
+		  </label>
+		  <label ng-show="user.create" class="item item-input item-stacked-label">
+		    <span class="input-label">State</span>
+		    <input type="text"  placeholder="State" ng-model="user.state">
+		  </label>
+		  <label ng-show="user.create" class="item item-input item-stacked-label">
+		    <span class="input-label">Postcode</span>
+		    <input type="text" placeholder="Postcode" ng-model="user.postcode">
+		  </label>
+	  </div>
+      <div class="padding">
+    	<button ng-hide="user.create || user.forgot" class="button button-block button-positive" ng-click="fireloginuser()">
             Sign-In
         </button>
-        <p class="text-center">
-            <a href="#/app/createaccount">Create Account</a>
+        <button ng-show="user.create" class="button button-block button-positive" ng-click="firecreateuser()">
+            Create & Sign In
+        </button>
+        <button ng-show="user.forgot" class="button button-block button-positive" ng-click="fireforgotuser()">
+            Send Reset Email
+        </button>
+        <p ng-hide="user.create || user.forgot" class="text-center">
+            <a ng-click="createuserBtn()">Create Account</a>
+        </p>
+        <p ng-hide="user.create || user.forgot" class="text-center">
+            <a ng-click="forgotuserBtn()">Forgot Password</a>
         </p>
     </div>
     </ion-content>

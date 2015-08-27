@@ -1,5 +1,5 @@
-<ion-view view-title="Articulation Abacus">
-  <ion-content ng-controller="abacusCtrl">
+<ion-view view-title="Articulation Abacus" ng-controller="abacusCtrl">
+  <ion-content>
   	<div ng-init="abacusLoader()" ng-show="loading"class="abacus-process">
 		<div class="loadingbox abacus-centered vertical-middle">
 			<span id="abacus_loading"></span><br /><span id="abacusLoadingText">Loading...</span>
@@ -13,17 +13,17 @@
 	    <div class="input-label">
 	      Training Provider
 	    </div>
-	    <select ng-model="abacus.provider" ng-options="v as v for (k, v) in abacus.providers">
+	    <select ng-model="abacus.provider" ng-change="checkQuals()" ng-options="v as v for (k, v) in abacus.providers">
 	    </select>
 	  </label>
-	  <label class="item item-input item-select" ng-show="abacus.provider">
+	  <label class="item item-input item-select" ng-show="abacus.provider && abacus.notCombined">
 	    <div class="input-label">
 	      Qualification Studied
 	    </div>	    
 	    <select ng-model="abacus.course" ng-options="v as v for (k, v) in abacus.courses[abacus.provider]">
 	    </select>
 	  </label>
-	  <li class="item item-checkbox" ng-show="abacus.course">
+	  <li class="item item-checkbox" ng-show="abacus.course && abacus.notCombined">
 	     <label class="checkbox">
 	       <input ng-model="abacus.courseComplete" ng-change='abacusCourseSubjects()' type="checkbox">
 	     </label>
@@ -45,9 +45,9 @@
 	    <select ng-model="abacus.ecnhcourse" ng-options="k as v for (k, v) in abacus.ecnhcourses">
 	    </select>
 	  </label>
-	  <button class="button button-full button-positive" ng-disabled="abacus.ecnhcourse == '' && abacus.provider == ''" ng-click="abacusCalc()">
-		  Calculate
-	  </button>
+	  <!--<button class="button button-full button-positive" ng-disabled="abacus.submit" ng-click="abacusCalc()">
+		    Calculate
+		</button>-->
 	</div>
 	<div ng-show="abacus.results" class="list">
 		
@@ -73,4 +73,7 @@
 	  
 	</div>
   </ion-content>
+  <ion-footer-bar align-title="left" class="bar-positive" ng-click="abacusCalc()">
+		<p class="title">Calculate<p>
+  </ion-footer-bar>
 </ion-view>

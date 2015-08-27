@@ -2,16 +2,16 @@
   <ion-content ng-controller="abacusAccount">
 	<div class="list">
 	  <label class="item item-input item-stacked-label">
+	    <span class="input-label">Email</span>
+	    <input type="text" placeholder="Email" ng-model="profile.email" ng-disabled="true">
+	  </label>
+	  <label class="item item-input item-stacked-label">
 	    <span class="input-label">First Name</span>
 	    <input type="text" placeholder="First Name" ng-model="profile.firstname">
 	  </label>
 	  <label class="item item-input item-stacked-label">
 	    <span class="input-label">Last Name</span>
 	    <input type="text" placeholder="Last Name" ng-model="profile.lastname">
-	  </label>
-	  <label class="item item-input item-stacked-label">
-	    <span class="input-label">Email</span>
-	    <input type="text" placeholder="Email" ng-model="profile.email">
 	  </label>
 	  <label class="item item-input item-stacked-label">
 	    <span class="input-label">Phone</span>
@@ -29,6 +29,35 @@
 	    <span class="input-label">Postcode</span>
 	    <input type="text"  placeholder="Postcode" ng-model="profile.postcode">
 	  </label>
+	  <button class="item" ng-click="openModal()">
+		  Change Your Password  
+	  </button>
 	</div>
   </ion-content>
 </ion-view>
+
+<script id="my-modal.html" type="text/ng-template">
+  <ion-modal-view>
+    <ion-header-bar>
+      <h1 class="title">Change Your Password</h1>
+      <div class="button button-clear" ng-click="modal.hide()"><span class="icon ion-close"></span></div>
+    </ion-header-bar>
+    <ion-content>
+      <div class="list">
+          <label class="item item-input">
+            <span class="input-label">Old Password</span>
+            <input type="password" placeholder="Old Password" ng-model="account.oldpassword">
+          </label>
+          <label class="item item-input">
+            <span class="input-label">New Password</span>
+            <input type="password" placeholder="New Password" ng-model="account.newpassword">
+          </label>
+	  </div>
+      <div class="padding">
+        <button class="button button-block button-positive" ng-click="firechangepass()">
+            Change Password
+        </button>
+    </div>
+    </ion-content>
+  </ion-modal-view>
+</script>
