@@ -1,10 +1,10 @@
 <ion-view view-title="Articulation Abacus" ng-controller="abacusCtrl">
-  <ion-content>
-  	<div ng-init="abacusLoader()" ng-show="loading"class="abacus-process">
+  <div ng-init="abacusLoader()" ng-show="loading.display"class="abacus-process">
 		<div class="loadingbox abacus-centered vertical-middle">
-			<span id="abacus_loading"></span><br /><span id="abacusLoadingText">Loading...</span>
+			<span id="abacus_loading"></span><br /><span id="abacusLoadingText">{{loading.text}}</span>
 		</div>
 	</div>
+  <ion-content>
 	<div class="abacus-pie">
 		<pie-chart data="pie.pie_guage_data" options="pie.pie_options"></pie-chart>
 	</div>

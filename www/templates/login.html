@@ -43,15 +43,15 @@
             <span class="input-label">Password</span>
             <input type="password" ng-model="user.password">
         </label>
-    </div>
-    <div ng-hide="authData" class="padding">
+      </div>
+      <div ng-hide="authData" class="padding">
     	<button class="button button-block button-positive" ng-disabled="user.username == '' && user.password == ''" ng-click="fireloginuser()">
             Sign-In
         </button>
         <p class="text-center">
             <a href="#/app/createaccount">Create Account</a>
         </p>
-    </div>
+      </div>
     </ion-content>
   </ion-modal-view>
 </script>

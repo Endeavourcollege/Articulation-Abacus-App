@@ -1,17 +1,13 @@
 /* Empty. Add your own CSS if you like */
 /* Abacus Loading Styles */
 .abacus-process {
-	display: block;
+	position: fixed;
 	width: 100%;
 	height: 100%;
-}
-
-.abacus-process {
-	position: absolute;
 	top:0;
 	left:0;
-	z-index: 3;
 	background-color: rgba(0,0,0,0.5);
+	z-index: 10;
 }
 
 .loadingbox {
@@ -25,8 +21,14 @@
   left: 50%;
   /* bring your own prefixes */
   transform: translate(-50%, -50%);
+  padding: 20px;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    text-align: center;
+    text-overflow: ellipsis;
+    font-size: 15px;
 }
-	
 #abacus_loading
 {
 	display: block;

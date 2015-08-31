@@ -332,110 +332,102 @@ angular.module('starter.controllers', [])
   console.log('abacusCtrl');
   	
   	/* Loading abacus svg */
-    $scope.loading = true;
+    $scope.loading = {};
+    $scope.loading.display = true;
+    $scope.loading.text = 'Gathering Data';
 	
 	$scope.abacusLoader = function() {
 
 		var s = Snap("#abacus_loading");
 		
-		Snap.load("/svg/abacus.svg", function (f) {
+		Snap.load("svg/abacus.svg", function (f) {
 			console.log(f);
 			console.log(s);
 			s.append(f);
 			
 			timer = 300;         // this is the length of how long it takes for the bead to move
-		bDeloy = 30;         // this is the time inbetween the beads moving,
-		bMoveDis = 'T70,0';  // absolute transform (x,y) units
-	
-	  // all the parts
-		abaFrame = s.select('#abacus');
-		balls =
-		[
-			s.select('#ball11'),s.select('#ball12'),s.select('#ball13'),
-			s.select('#ball21'),s.select('#ball22'),s.select('#ball23'),
-			s.select('#ball31'),s.select('#ball32'),s.select('#ball33')
-		];
+			bDeloy = 30;         // this is the time inbetween the beads moving,
+			bMoveDis = 'T70,0';  // absolute transform (x,y) units
 		
-	  //Managing the row
-	  ballCount = [0,0,0];
-		
-		// --- main loop
-	
-		setInterval(function () {CheckPos(0)}, timer+bDeloy);
-		
-		// assigns the values to each row
-	  function CheckPos()
-	  {
-	    // for row 3 step Sequence
-	    if(ballCount[2] ==5)
-	    {
-	      ballCount[2]=0;
-	    }
-	
-	    //for row 2 step Sequence
-	    if(ballCount[1] > 3)
-	    {
-	      ballCount[1]++;
-	
-	      if(ballCount[1] == 5)
-	      {
-	          ballCount[2]++;
-	          ballCount[1]=0;
-	      }
-	    }
-	
-	    // for row 1 step Sequence
-	    ballCount[0]++;
-	    if(ballCount[0] == 5)
-	    {
-	      ballCount[0]=0;
-	      ballCount[1]++;
-	    }
-	
-	    // Moves Rows
-	    MoveBall(0);
-	    MoveBall(1);
-	    MoveBall(2);
-	  }
-	
-	  // the movement states of the balls on a row, row is an int of the row called
-		function MoveBall(row)
-		{
-			rowCheck = row*3;
-			switch (ballCount[row])
+			// all the parts
+			abaFrame = s.select('#abacus');
+			balls =
+			[
+				s.select('#ball11'),s.select('#ball12'),s.select('#ball13'),
+				s.select('#ball21'),s.select('#ball22'),s.select('#ball23'),
+				s.select('#ball31'),s.select('#ball32'),s.select('#ball33')
+			];
+			
+			  //Managing the row
+			  ballCount = [0,0,0];
+				
+				// --- main loop
+			
+				setInterval(function () {CheckPos(0)}, timer+bDeloy);
+				
+				// assigns the values to each row
+			  function CheckPos()
+			  {
+			    // for row 3 step Sequence
+			    if(ballCount[2] ==5)
+			    {
+			      ballCount[2]=0;
+			    }
+			
+			    //for row 2 step Sequence
+			    if(ballCount[1] > 3)
+			    {
+			      ballCount[1]++;
+			
+			      if(ballCount[1] == 5)
+			      {
+			          ballCount[2]++;
+			          ballCount[1]=0;
+			      }
+			    }
+			
+			    // for row 1 step Sequence
+			    ballCount[0]++;
+			    if(ballCount[0] == 5)
+			    {
+			      ballCount[0]=0;
+			      ballCount[1]++;
+			    }
+			
+			    // Moves Rows
+			    MoveBall(0);
+			    MoveBall(1);
+			    MoveBall(2);
+			  }
+			
+			  // the movement states of the balls on a row, row is an int of the row called
+			function MoveBall(row)
 			{
-				case 1:
-					balls[2+rowCheck].animate({transform: bMoveDis}, timer, mina.easeout);
-					break;
-				
-				case 2:
-				   balls[1+rowCheck].animate({transform: bMoveDis}, timer, mina.easeout);
-				  break;
-				
-				case 3:
-				   balls[0+rowCheck].animate({transform: bMoveDis}, timer, mina.easeout);
-				   break;
-				
-				case 4:
-				  balls[0+rowCheck].animate({transform:'T0,0'}, timer, mina.easeout);
-			    balls[1+rowCheck].animate({transform:'T0,0'}, timer, mina.easeout);
-				  balls[2+rowCheck].animate({transform:'T0,0'}, timer, mina.easeout);
-				  break;
-	
-				default:
-			    break;
-			};
-		}
-		    // Note that we traverse and change attr before SVG
-		    // is even added to the page
-		    /*f.select("polygon[fill='#09B39C']").attr({fill: "#bada55"});
-		    g = f.select("g");
-		    s.append(g);
-		    // Making croc draggable. Go ahead drag it around!
-		    g.drag();
-		    // Obviously drag could take event handlers too
-		    // Looks like our croc is made from more than one polygon...
-		    */
+				rowCheck = row*3;
+				switch (ballCount[row])
+				{
+					case 1:
+						balls[2+rowCheck].animate({transform: bMoveDis}, timer, mina.easeout);
+						break;
+					
+					case 2:
+					   balls[1+rowCheck].animate({transform: bMoveDis}, timer, mina.easeout);
+					  break;
+					
+					case 3:
+					   balls[0+rowCheck].animate({transform: bMoveDis}, timer, mina.easeout);
+					   break;
+					
+					case 4:
+					  balls[0+rowCheck].animate({transform:'T0,0'}, timer, mina.easeout);
+				    balls[1+rowCheck].animate({transform:'T0,0'}, timer, mina.easeout);
+					  balls[2+rowCheck].animate({transform:'T0,0'}, timer, mina.easeout);
+					  break;
+		
+					default:
+				    break;
+				};
+			}
 		});
     };
 	/* End loading abacus svg */
@@ -474,7 +466,8 @@ angular.module('starter.controllers', [])
 	    // or server returns response with an error status.
 	    console.log('There was an error:' + JSON.stringify(config));
 	    console.log('status:' + status);
-	    $scope.loading = false;
+	    $scope.loading.display = false;
+		$scope.loading.text = '';
 	    
 	  });
   
@@ -489,14 +482,16 @@ angular.module('starter.controllers', [])
 	    // called asynchronously if an error occurs
 	    // or server returns response with an error status.
 	    console.log(data);
-	    $scope.loading = false;
+	    $scope.loading.display = false;
+		$scope.loading.text = '';
 	  });  
   
   //when all data gathered hide loader
   $q.all([getTrainers, getECNHCourses]).then(function(data){
 		//console.log(data[0], data[1]);
 		//$ionicLoading.hide();
-		$scope.loading = false;
+		$scope.loading.display = false;
+		$scope.loading.text = '';
   });
   
   //check if there is a combined qual in dropdown if true automatically show subjects
@@ -520,7 +515,8 @@ angular.module('starter.controllers', [])
 	  	}
 	  	
 	  	$scope.abacus.subjects = {};
-	  	$scope.loading = true;
+	  	$scope.loading.display = true;
+		$scope.loading.text = 'Getting Subjects';
 	  
 		console.log('Getting Courses');
 		console.log('Provider: ' + $scope.abacus.provider);
@@ -535,14 +531,16 @@ angular.module('starter.controllers', [])
 			success(function(data, status, headers, config) {
 			  $scope.abacus.subjects = data.subjects;
 			  console.log(data);
-			  $scope.loading = false;
+			  $scope.loading.display = false;
+			  $scope.loading.text = '';
 			}).
 			error(function(data, status, headers, config) {
 			  // called asynchronously if an error occurs
 			  // or server returns response with an error status.
 			  alert('There was an error:' + error);
 			  alert('status:' + status);
-			  $scope.loading = false;
+			  $scope.loading.display = false;
+			  $scope.loading.text = '';
 			});
   };
   
@@ -572,11 +570,9 @@ angular.module('starter.controllers', [])
   
   //send information to be calculated
   $scope.abacusCalc = function() {
-	  
-		$ionicLoading.show({
-		  template: 'Calculating...'
-		});
-	  
+		$scope.loading.display = true;
+		$scope.loading.text = 'Calculating';
+		
 		console.log('Calculating');
 		console.log('Provider: ' + $scope.abacus.provider);
 		console.log('Course: ' + $scope.abacus.course);
@@ -617,14 +613,18 @@ angular.module('starter.controllers', [])
 				  console.log(e);
 			  }
 			  
-			  $ionicLoading.hide();
+			  //$ionicLoading.hide();
+			  $scope.loading.display = false;
+			  $scope.loading.text = '';
 			}).
 			error(function(data, status, headers, config) {
 			  // called asynchronously if an error occurs
 			  // or server returns response with an error status.
 			  alert('There was an error:' + error);
 			  alert('status:' + status);
-			  $ionicLoading.hide();
+			  //$ionicLoading.hide();
+			  $scope.loading.display = false;
+			  $scope.loading.text = '';
 			});
   };
 
