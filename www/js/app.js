@@ -107,6 +107,15 @@ angular.module('starter', ['ionic', 'firebase', 'n3-pie-chart', 'starter.control
     }
   })
   
+  .state('app.abacussector', {
+    url: '/abacus/:providerSect',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/abacus.html'
+      }
+    }
+  })
+  
   .state('app.svg', {
     url: '/svg',
     views: {

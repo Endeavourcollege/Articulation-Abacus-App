@@ -328,8 +328,11 @@ angular.module('starter.controllers', [])
   
 })
 
-.controller("abacusCtrl", function($scope, $ionicLoading, $http, $q, $ionicPopover) {
+.controller("abacusCtrl", function($scope, $stateParams, $ionicLoading, $http, $q, $ionicPopover) {
   console.log('abacusCtrl');
+  	
+  	//get provider section
+  	$scope.abacusSector = '';
   	
   	/* Loading abacus svg */
     $scope.loading = {};
@@ -341,8 +344,7 @@ angular.module('starter.controllers', [])
 		var s = Snap("#abacus_loading");
 		
 		Snap.load("svg/abacus.svg", function (f) {
-			console.log(f);
-			console.log(s);
+			
 			s.append(f);
 			
 			timer = 300;         // this is the length of how long it takes for the bead to move
